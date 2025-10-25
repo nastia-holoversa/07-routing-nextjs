@@ -7,19 +7,17 @@ import css from "./Modal.module.css";
 
 interface ModalProps {
   children: React.ReactNode;
-  onClose?: () => void; // ← залишаємо опціональним
+  onClose?: () => void;
 }
 
 export default function Modal({ children, onClose }: ModalProps) {
   const router = useRouter();
 
-  // ✅ обгортаємо у useCallback, щоб уникнути перегенерації функції
   const handleClose = useCallback(() => {
     if (onClose) onClose();
     else router.back();
   }, [onClose, router]);
 
-  // Закриття через Escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") handleClose();
@@ -28,7 +26,6 @@ export default function Modal({ children, onClose }: ModalProps) {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [handleClose]);
 
-  // Закриття при кліку поза модалкою
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) handleClose();
   };

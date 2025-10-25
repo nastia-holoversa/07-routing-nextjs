@@ -7,9 +7,9 @@ import axios from "axios";
 export default async function NoteDetailsPage({
   params,
 }: {
-  params: { id: string }; // ✅ прибрали Promise
+  params: { id: string };
 }) {
-  const { id } = params; // ✅ без await
+  const { id } = params;
   const queryClient = new QueryClient();
 
   try {
@@ -19,7 +19,7 @@ export default async function NoteDetailsPage({
     });
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 404) {
-      notFound(); // ✅ тепер працює як треба
+      notFound();
     }
     throw error;
   }
