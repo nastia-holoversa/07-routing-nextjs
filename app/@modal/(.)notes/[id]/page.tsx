@@ -13,7 +13,6 @@ export default async function NotePreviewModal({ params }: Props) {
   const { id } = await params;
 
   if (!id || id === "filter") {
-    console.log("⏭️ Skipping modal render — invalid ID:", id);
     return null;
   }
 
@@ -26,7 +25,6 @@ export default async function NotePreviewModal({ params }: Props) {
     });
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 404) {
-      console.warn(`Note with id=${id} not found`);
       notFound();
     }
     throw error;
