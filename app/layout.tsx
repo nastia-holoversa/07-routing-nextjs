@@ -24,7 +24,7 @@ export default function RootLayout({
           <Header />
           <main>
             {children}
-            {modal} {}
+            {modal}
           </main>
           <Footer />
           <Toaster position="top-right" reverseOrder={false} />

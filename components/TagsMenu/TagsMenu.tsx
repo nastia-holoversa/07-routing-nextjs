@@ -20,17 +20,18 @@ export default function TagsMenu() {
         aria-expanded={isOpen}
         aria-label="Toggle notes filter menu"
       >
-        Notes ▾
+        Notes 
       </button>
 
       {isOpen && (
         <ul className={css.menuList}>
           {TAGS.map((tag) => (
             <li key={tag} className={css.menuItem}>
-              <Link
-                href={`/notes/filter/${tag}`}
-                className={css.menuLink}
-                onClick={closeMenu}
+              <Link href={tag === "All" ? "/notes/filter" : `/notes/filter/${tag}`}
+                className={css.menuLink} onClick={() => {
+                  closeMenu();
+                  if (tag === "All") window.location.href = "/notes/filter";
+                }}
               >
                 {tag === "All" ? "All notes" : tag}
               </Link>
@@ -41,3 +42,4 @@ export default function TagsMenu() {
     </div>
   );
 }
+

@@ -17,9 +17,10 @@ export default async function NotesFilterPage({ params }: Props) {
   const isNoteTag = (value: unknown): value is NoteTag =>
     typeof value === "string" && allowedTags.includes(value as NoteTag);
 
-  const queryParams = isNoteTag(tag)
-    ? { tag, page: 1, perPage: 12 }
-    : { page: 1, perPage: 12 };
+  const queryParams =
+    tag && tag.toLowerCase() !== "all" && isNoteTag(tag)
+      ? { tag, page: 1, perPage: 12 }
+      : { page: 1, perPage: 12 };
 
   try {
     await queryClient.prefetchQuery({
@@ -31,7 +32,7 @@ export default async function NotesFilterPage({ params }: Props) {
     console.error("Prefetch error:", error);
   }
 
-  const validTag = isNoteTag(tag) ? tag : undefined;
+  const validTag = tag && tag.toLowerCase() !== "all" && isNoteTag(tag) ? tag : undefined;
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

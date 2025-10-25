@@ -27,11 +27,19 @@ export default function NotesClient({ tag }: NotesClientProps) {
   const [debouncedSearch] = useDebounce(search, 500);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setCurrentPage(1);
+  };
+
   const queryParams = useMemo(() => {
-    return tag
-      ? { tag, page: currentPage, perPage: PER_PAGE, search: debouncedSearch }
-      : { page: currentPage, perPage: PER_PAGE, search: debouncedSearch };
-  }, [tag, currentPage, debouncedSearch]);
+  const baseParams = {
+    page: currentPage,
+    perPage: PER_PAGE,
+    search: debouncedSearch,
+  };
+  return tag ? { ...baseParams, tag } : baseParams;
+}, [tag, currentPage, debouncedSearch]);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["notes", queryParams],
@@ -40,7 +48,7 @@ export default function NotesClient({ tag }: NotesClientProps) {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
-
+  
   const notes: Note[] = data?.notes || [];
   const totalPages = data?.totalPages || 1;
 
@@ -56,7 +64,7 @@ export default function NotesClient({ tag }: NotesClientProps) {
       <Toaster position="top-right" reverseOrder={false} />
 
       <header className={css.toolbar}>
-        <SearchBox value={search} onChange={setSearch} />
+        <SearchBox value={search} onChange={handleSearchChange} />
         <button className={css.button} onClick={() => setIsModalOpen(true)}>
           + Create note
         </button>
