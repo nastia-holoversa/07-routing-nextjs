@@ -1,0 +1,18 @@
+.container {
+    max-width: 720px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 12px;
+}
+
+.description {
+    font-size: 18px;
+    color: #555;
+}
